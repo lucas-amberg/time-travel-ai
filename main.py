@@ -2,6 +2,7 @@ from ai import *
 import os
 import re
 import time
+import datetime
 
 
 
@@ -12,6 +13,8 @@ def main():
   print()
   time.sleep(1)
   print('API key accepted!')
+  print()
+  time.sleep(1)
 
   # Create an AI object
   ai = AI(api_key)
@@ -44,14 +47,17 @@ def main():
   
   # Begin the conversation
   print('Beginning the conversation...')
-  print(f'\nThe year is {ai.time}. You are now entering a conversation with {ai.name}...\n')
+  print(f'\nThe year is {ai.time if ai.time else datetime.datetime.today().year}. You are now entering a conversation with {ai.name if ai.name else 'somebody'}...\n')
   while True:
     user_message = input('You: ')
+    print()
     response = ai.get_response(user_message)
-    if ('goodbye' in response.lower and 'goodbye' in user_message.lower()) or ('bye' in response.lower and 'bye' in user_message.lower()):
+    if ('goodbye' in response.lower() and 'goodbye' in user_message.lower()) or ('bye' in response.lower() and 'bye' in user_message.lower()):
       print(f'{ai.name}: {response}')
+      print()
       break
     print(f'{ai.name}: {response}')
+    print()
   print('Conversation ended.')
     
 
