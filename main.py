@@ -1,6 +1,7 @@
 from ai import *
 import customtkinter as tk
 import os
+import re
 
 class GUI(tk.CTk):
 
@@ -16,14 +17,26 @@ class GUI(tk.CTk):
     
   def get_api_key(self):
     if os.environ.get('OPENAI_API_KEY'):
-      print('retrieved api key')
-      textbox = tk.CTkLabel(self, text="Retrieving API Key From Environment Variables...", anchor='center', font=("Comic Sans MS", 20))
-      textbox.place(x=400, y=300, anchor='center')
+      label = tk.CTkLabel(self, text="Retrieving API Key From Environment Variables...", anchor='center', font=("Comic Sans MS", 20))
+      label.place(x=400, y=300, anchor='center')
+      self.after(2000, self._clear_frame)
       return os.environ.get('OPENAI_API_KEY')
     else:
       self._clear_frame()
-      textbox = tk.CTkEntry(self, "API Key")
-      textbox.pack()
+      textbox = tk.CTkEntry(self, "OpenAI API Key")
+      textbox.place(x=400, y=200, anchor='center')
+      button = tk.CTkButton(self, "Submit", command=lambda: self._check_and_return_key(textbox.get()))
+      button.place(x=400, y=400, anchor='center')
+    
+    def _check_and_return_key(self, key):
+      if re.match(r'^sk-[a-zA-Z0-9]{24}$', key):
+        self._clear_frame()
+        return key
+      else:
+        label = tk.CTkLabel(self, text="Invalid API Key", anchor='center', font=("Comic Sans MS", 20))
+        label.place(x=400, y=300, anchor='center')  
+        self.after(2000, self.get_api_key)
+        
     
   def _clear_frame(self):
     for widget in self.winfo_children():
