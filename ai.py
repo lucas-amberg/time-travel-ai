@@ -42,3 +42,22 @@ class AI():
     )
     self.messages.append({"role": "assistant", "content": message.choices[0].message.content.strip()})
     return message.choices[0].message.content.strip()
+  
+  def get_name(self):
+    if self.name == None:
+      print('Please input the name of the person you would like the AI agent to become.')
+    else:
+      print('Please input the name of the person you would like the AI agent to become.')
+      print(f'Current name: {self.name}')
+    name = input('\n> ')
+    self.set_name(name)
+  
+  def get_time(self):
+    if self.time == None:
+      print('Please input the year you would like the AI agent to act like it is.')
+    else:
+      print('Please input the year you would like the AI agent to act like it is.')
+      print(f'Current year: {self.time}')
+    time = input('\n> ')
+    self.set_time(time)
+    

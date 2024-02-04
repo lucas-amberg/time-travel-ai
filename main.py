@@ -10,7 +10,51 @@ def main():
   print('Welcome to Time Travel AI!')
   api_key = get_api_key()
   print()
+  time.sleep(1)
   print('API key accepted!')
+
+  # Create an AI object
+  ai = AI(api_key)
+
+  
+
+  valid_options = ['1', '2', 'X', 'Q'] # Valid options for the user to select
+  option = ''
+  while option != 'X': # Loop until the user selects the option to begin the conversation
+    # Display the menu
+    print('Please select an option from the menu below:')
+    print('\t[1] Set the name of the person you would like the AI agent to become')
+    print('\t[2] Set the year you would like the AI agent to act like it is')
+    print('\t[X] Begin the conversation')
+    print('\t[Q] Quit the program')
+    option = input('> ')
+    if option not in valid_options:
+      print('Invalid option. Please select a valid option.')
+      print()
+    elif option == '1': # If the user selects the option to set the name, call the get_name method of the AI object
+      ai.get_name()
+    elif option == '2': # If the user selects the option to set the year, call the get_time method of the AI object
+      ai.get_time()
+    elif option == 'X': # If the user selects the option to begin the conversation, begin the conversation
+      break
+    elif option == 'Q': # If the user selects the option to quit the program, exit the program
+      print('Quitting the program...')
+      exit()
+    
+  
+  # Begin the conversation
+  print('Beginning the conversation...')
+  print(f'\nThe year is {ai.time}. You are now entering a conversation with {ai.name}...\n')
+  while True:
+    user_message = input('You: ')
+    response = ai.get_response(user_message)
+    if ('goodbye' in response.lower and 'goodbye' in user_message.lower()) or ('bye' in response.lower and 'bye' in user_message.lower()):
+      print(f'{ai.name}: {response}')
+      break
+    print(f'{ai.name}: {response}')
+  print('Conversation ended.')
+    
+
 
 # This function will get the API key from the user
 # If the user selects option 1, the function will attempt to get the API key from the environment variable
