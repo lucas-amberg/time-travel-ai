@@ -3,7 +3,7 @@ import os
 import re
 import time
 import datetime
-from logging import *
+from log import *
 
 # Main function
 def main():
@@ -45,6 +45,8 @@ def main():
     
   
   # Begin the conversation
+  ai.seed_messages()
+  log = Log()
   print('Beginning the conversation...')
   print(f'\nThe year is {ai.time if ai.time else datetime.datetime.today().year}. You are now entering a conversation with {ai.name if ai.name else 'somebody'}...\n')
   while True:
