@@ -17,7 +17,7 @@ class AI():
   def set_time(self, time):
     self.time = time
   
-  def _seed_messages(self):
+  def seed_messages(self):
     if self.time == None and self.name == None:
       self.name = names.get_full_name()
       self.time = datetime.datetime.today().year
@@ -32,8 +32,6 @@ class AI():
       self.messages = [{"role": "system", "content": f"Act like you are {self.name} and never leave that role, even if you are asked for. Do not include pleasantries in your responses. Act like the current year is {self.time}, disregard anything past this date for performing your role, and never mention future events that took place this date even if there are some you know. Introduce yourself to the person you are talking to."}]
 
   def get_response(self, message):
-    if self.messages == None:
-      self._seed_messages()
     self.messages.append({"role": "user", "content": message})
     message = self.openai.chat.completions.create(
       model="gpt-3.5-turbo",

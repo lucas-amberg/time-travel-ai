@@ -3,6 +3,7 @@ import os
 import re
 import time
 import datetime
+from logging import *
 
 # Main function
 def main():
