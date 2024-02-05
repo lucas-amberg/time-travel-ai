@@ -1,10 +1,9 @@
-from ai import *
+from ai import AI
 import os
 import re
 import time
 import datetime
-
-
+from log import Log
 
 # Main function
 def main():
@@ -46,19 +45,26 @@ def main():
     
   
   # Begin the conversation
-  print('Beginning the conversation...')
-  print(f'\nThe year is {ai.time if ai.time else datetime.datetime.today().year}. You are now entering a conversation with {ai.name if ai.name else 'somebody'}...\n')
+  ai.seed_messages()
+  log = Log()
+  log.create_log_file(ai)
+  start_time = time.time()
+  message_count = 0
+  log.print_and_log('Beginning the conversation...\n')
+  log.print_and_log(f'The year is {ai.time if ai.time else datetime.datetime.today().year}. You are now entering a conversation with {ai.name if ai.name else "somebody"}...\n')
   while True:
-    user_message = input('You: ')
-    print()
+    user_message = log.get_input_and_log('You: ') # Get the user's message and log it
+    log.new_line()
     response = ai.get_response(user_message)
     if ('goodbye' in response.lower() and 'goodbye' in user_message.lower()) or ('bye' in response.lower() and 'bye' in user_message.lower()):
-      print(f'{ai.name}: {response}')
-      print()
+      log.print_and_log(f'{ai.name}: {response}\n')
+      log.new_line()
+      message_count += 2 # Increment the message count by 2
       break
-    print(f'{ai.name}: {response}')
-    print()
-  print('Conversation ended.')
+    log.print_and_log(f'{ai.name}: {response}\n') 
+    log.new_line()
+    message_count += 2 # Increment the message count by 2
+  log.print_and_log(f'Conversation ended after {round(time.time() - start_time, 2)} seconds with {message_count} messages.') # Log the end of the conversation
     
 
 
