@@ -4,8 +4,6 @@ import re
 import time
 import datetime
 
-
-
 # Main function
 def main():
   print('Welcome to Time Travel AI!')
